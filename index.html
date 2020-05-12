@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas id="myChart"></canvas>
+    <script>
+      var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+      type: 'polarArea',
+      data: {
+        labels: ["asd","asd"],
+        datasets: [{
+		
+        backgroundColor: 'rgba(20,1,220,0.2)',
+		borderColor: 'rgba(57,50,94,1)',
+					
+            data: [1,2,3,4,5],
+           
+           
+            borderWidth: 1
+        }]
+    },
+  
+    options: {
+				responsive: true,
+                aspectRatio:1.4,
+				
+				title: {
+					display: true,
+					text: 'asd'
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
+				legend: {
+					display: false,
+					
+				},
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							
+						}
+					}]
+				}
+			}
+		
+});     
+    </script>
+    
+
+</body>
+
+</html>
