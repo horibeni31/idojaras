@@ -1,76 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hu">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-    <title>Document</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	<title>Document</title>
+<style>
+label{
+	display: block;
+}
+</style>
 </head>
 
 <body>
-    <canvas id="myChart"></canvas>
-    <script>
-      var ctx = document.getElementById('myChart').getContext('2d');
-var myChart = new Chart(ctx, {
-      type: 'polarArea',
-      data: {
-        labels: ["asd","asd"],
-        datasets: [{
-		
-        backgroundColor: 'rgba(20,1,220,0.2)',
-		borderColor: 'rgba(57,50,94,1)',
-					
-            data: [1,2,3,4,5],
-           
-           
-            borderWidth: 1
-        }]
-    },
-  
-    options: {
-				responsive: true,
-                aspectRatio:1.4,
-				
-				title: {
-					display: true,
-					text: 'asd'
-				},
-				tooltips: {
-					mode: 'index',
-					intersect: false,
-				},
-				hover: {
-					mode: 'nearest',
-					intersect: true
-				},
-				legend: {
-					display: false,
-					
-				},
-				scales: {
-					xAxes: [{
-						display: true,
-						scaleLabel: {
-							display: true,
-							
-						}
-					}],
-					yAxes: [{
-						display: true,
-						scaleLabel: {
-							display: true,
-							
-						}
-					}]
-				}
-			}
-		
-});     
-    </script>
-    
+	<div class="container">
+		<h1>Bágyogszováti időjárás</h1>
+		<input type="date" id="dt-from" onchange="RefreshData()">
+		<input type="date" id="dt-to" onchange="RefreshData()">
 
+		<select id="drp" onchange="RefreshData()">
+			<option value="temperature">temperature</option>
+			<option value="humidity">humidity</option>
+
+		</select>
+		<div class="row">
+			<div class="col-sm-6">
+
+
+				<canvas id="myChart"></canvas>
+
+			</div>
+			<div class="col-sm-6">
+
+
+				<canvas id="myChart2"></canvas>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6">
+
+
+
+			</div>
+			<div class="col-sm-6">
+				<label id="avg">Átlag sebesség: </label>
+				<label id ="max">Legnagyobb sebesség: </label>
+				<label id ="min">Legkisebb sebesség: </label>
+
+			</div>
+		</div>
+
+
+
+
+
+
+
+	</div>
+
+	<script src="script.js"></script>
 </body>
 
 </html>
