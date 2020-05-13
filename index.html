@@ -9,25 +9,39 @@
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 	<title>Document</title>
-<style>
-label{
-	display: block;
-}
-</style>
+	<link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
-	<div class="container">
+	<div class="container mx-auto ">
+		<!-- A grey horizontal navbar that becomes vertical on small screens -->
+		<nav class="navbar navbar-expand-sm bg-dark">
+
+			<!-- Links -->
+			<ul class="navbar-nav">
+				<li class="nav-item">
+					<a class="nav-link" href="#">Adatok letöltése</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">Jelenlegi adatok</a>
+				</li>
+				
+			</ul>
+
+		</nav>
 		<h1>Bágyogszováti időjárás</h1>
 		<input type="date" id="dt-from" onchange="RefreshData()">
+		<label>-tól ------</label>
 		<input type="date" id="dt-to" onchange="RefreshData()">
+		<label>ig</label>
 
 		<select id="drp" onchange="RefreshData()">
-			<option value="temperature">temperature</option>
-			<option value="humidity">humidity</option>
 
 		</select>
+
 		<div class="row">
+
 			<div class="col-sm-6">
 
 
@@ -42,14 +56,11 @@ label{
 		</div>
 		<div class="row">
 			<div class="col-sm-6">
-
-
-
 			</div>
 			<div class="col-sm-6">
 				<label id="avg">Átlag sebesség: </label>
-				<label id ="max">Legnagyobb sebesség: </label>
-				<label id ="min">Legkisebb sebesség: </label>
+				<label id="max">Legnagyobb sebesség: </label>
+				<label id="min">Legkisebb sebesség: </label>
 
 			</div>
 		</div>
@@ -61,7 +72,7 @@ label{
 
 
 	</div>
-
+	<script src="chartscript.js"></script>
 	<script src="script.js"></script>
 </body>
 

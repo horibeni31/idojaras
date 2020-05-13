@@ -16,115 +16,20 @@ dirmap["292.5"] = "ÉNYNY";
 dirmap["315.0"] = "ÉNY";
 dirmap["337.5"] = "ÉÉNY";
 
+var cmbmap = {
+	"hőmérséklet": "temperature",
+	"szélsebesség": "speed",
+	"páratartalom": "humidity",
+	"légnyomás": "pressure"
+};
+for (var key in cmbmap) {
 
+	var option = document.createElement("option");
+	option.text = key;
+	document.getElementById("drp").add(option);
+}
 var ws = new WebSocket("ws://ip.idojaras.live:1264");
-var ctx = document.getElementById('myChart').getContext('2d');
-var myChart = new Chart(ctx, {
-	type: 'polarArea',
-	data: {
-		labels: [],
-		datasets: [{
 
-			backgroundColor: 'rgba(20,1,220,0.2)',
-			borderColor: 'rgba(57,50,94,1)',
-
-			data: [],
-
-
-			borderWidth: 1
-		}]
-	},
-
-	options: {
-			startAngle:- (90+11.25)/180*Math.PI,
-		responsive: true,
-		aspectRatio: 1.4,
-
-		title: {
-			display: true,
-			text: 'Szélirány'
-		},
-		tooltips: {
-			mode: 'index',
-			intersect: false,
-		},
-		hover: {
-			mode: 'nearest',
-			intersect: true
-		},
-		legend: {
-			display: false,
-
-		},
-		scales: {
-			xAxes: [{
-				display: true,
-				scaleLabel: {
-					display: true,
-
-				}
-			}]
-
-		}
-	}
-
-});
-var ctx2 = document.getElementById('myChart2').getContext('2d');
-var myChart2 = new Chart(ctx2, {
-	type: 'line',
-	data: {
-		labels: [],
-		datasets: [{
-
-			backgroundColor: 'rgba(20,1,220,0.2)',
-			borderColor: 'rgba(57,50,94,1)',
-
-			data: [],
-
-
-			borderWidth: 1
-		}]
-	},
-
-	options: {
-		responsive: true,
-		aspectRatio: 1.4,
-
-		title: {
-			display: true,
-			text: 'Hőmérséklet'
-		},
-		tooltips: {
-			mode: 'index',
-			intersect: false,
-		},
-		hover: {
-			mode: 'nearest',
-			intersect: true
-		},
-		legend: {
-			display: false,
-
-		},
-		scales: {
-			xAxes: [{
-				display: true,
-				scaleLabel: {
-					display: true,
-
-				}
-			}],
-			yAxes: [{
-				display: true,
-				scaleLabel: {
-					display: true,
-
-				}
-			}]
-		}
-	}
-
-});
 document.getElementById("dt-from").defaultValue = "2014-02-09";
 document.getElementById("dt-to").defaultValue = "2020-05-14";
 
@@ -148,11 +53,11 @@ function clearData(chart) {
 	chart.update();
 }
 function RefreshData() {
-	var type = document.getElementById("drp").options[document.getElementById("drp").selectedIndex].value
+	var type = cmbmap[document.getElementById("drp").options[document.getElementById("drp").selectedIndex].value];
 
-	var dtfrom = new Date(document.getElementById("dt-from").value)
-	var dtto = new Date(document.getElementById("dt-to").value)
-	var message = {}
+	var dtfrom = new Date(document.getElementById("dt-from").value);
+	var dtto = new Date(document.getElementById("dt-to").value);
+	var message = {};
 	message.type = "thsp";
 	message.data = {};
 	message.data.type = type;
@@ -163,19 +68,20 @@ function RefreshData() {
 	RefreshOther()
 	RefreshDirection();
 }
-function 	RefreshOther(){
-	var type = document.getElementById("drp").options[document.getElementById("drp").selectedIndex].value
+function RefreshOther() {
+	var type = cmbmap[document.getElementById("drp").options[document.getElementById("drp").selectedIndex].value];
 
-	var dtfrom = new Date(document.getElementById("dt-from").value)
-	var dtto = new Date(document.getElementById("dt-to").value)
-	var message = {}
+	var dtfrom = new Date(document.getElementById("dt-from").value);
+	var dtto = new Date(document.getElementById("dt-to").value);
+	var message = {};
 	message.type = "other";
 	message.data = {};
 	message.data.type = type;
 	message.data.from = dtfrom;
 	message.data.to = dtto;
-	var msg = JSON.stringify(message)
+	var msg = JSON.stringify(message);
 	ws.send(msg);
+	myChart2.options.title.text = document.getElementById("drp").options[document.getElementById("drp").selectedIndex].value;
 
 
 }
@@ -212,7 +118,7 @@ ws.onmessage = function (event) {
 		var values = {};
 
 		for (var key in dirmap) {
-			values[dirmap[key]] =0;
+			values[dirmap[key]] = 0;
 			//console.log(dirmap[key]);
 			//		addData(myChart, dirmap[key],1	);
 
@@ -238,11 +144,12 @@ ws.onmessage = function (event) {
 		for (var i = 0; i < msg.data.length; i++) {
 			addData(myChart2, msg.data[i].date, msg.data[i].value);
 		}
-	}else if (msg.type == "other"){
+	} else if (msg.type == "other") {
 		var cmb = document.getElementById("drp");
 		var cmbtype = cmb.options[cmb.selectedIndex].value;
 		console.log(msg.data.type);
-		document.getElementById(msg.data.type).innerHTML =msg.data.type+" "+ cmbtype+": "+msg.data.data[0].field;
+		var dtype = msg.data.type == "avg" ? "Átlag " : msg.data.type == "min" ? "Minimum " : "Maximum ";
+		document.getElementById(msg.data.type).innerHTML = dtype + " " + cmbtype + ": " + msg.data.data[0].field;
 	}
 
 

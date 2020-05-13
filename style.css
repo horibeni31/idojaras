@@ -1,0 +1,29 @@
+#avg,#mim,#max{
+	display: block;
+}
+body{
+    background-color: rgb(153, 202, 175);
+    padding-left: 10px;
+}
+div{
+    background-color:darkgray;
+}
+a{
+    text-decoration:  none;
+    color: white;
+    border-bottom: 2px solid transparent;
+}
+a:hover{
+    color: mediumseagreen;
+    border-bottom: 2px solid rgb(60, 179, 113);
+}
+input,select{
+    background-color: rgb(181, 236, 206);
+    border: none;
+}input:hover,select:hover{
+    background-color: rgb(147, 211, 176);
+    border: none;
+}
+.container{
+    float: center;
+}
