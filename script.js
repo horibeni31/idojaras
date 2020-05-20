@@ -52,7 +52,12 @@ function clearData(chart) {
 
 	chart.update();
 }
-function RefreshData() {
+function RefreshAll(){
+	RefreshTHSP();
+	RefreshOther()
+	RefreshDirection();
+}
+function RefreshTHSP() {
 	var type = cmbmap[document.getElementById("drp").options[document.getElementById("drp").selectedIndex].value];
 
 	var dtfrom = new Date(document.getElementById("dt-from").value);
@@ -65,8 +70,7 @@ function RefreshData() {
 	message.data.to = dtto;
 	var msg = JSON.stringify(message)
 	ws.send(msg);
-	RefreshOther()
-	RefreshDirection();
+	
 }
 function RefreshOther() {
 	var type = cmbmap[document.getElementById("drp").options[document.getElementById("drp").selectedIndex].value];
@@ -100,7 +104,7 @@ function RefreshDirection() {
 
 ws.onopen = function (event) {
 	console.log('Connection is open ...');
-	RefreshData();
+	RefreshAll();
 
 
 };
@@ -109,7 +113,12 @@ ws.onerror = function (err) {
 }
 ws.onmessage = function (event) {
 	//	console.log(event.data);
-	var msg = JSON.parse(event.data);
+	console.log(event.data);
+	try{
+
+		var msg = JSON.parse(event.data);
+
+	
 
 
 
@@ -150,8 +159,17 @@ ws.onmessage = function (event) {
 		console.log(msg.data.type);
 		var dtype = msg.data.type == "avg" ? "Átlag " : msg.data.type == "min" ? "Minimum " : "Maximum ";
 		document.getElementById(msg.data.type).innerHTML = dtype + " " + cmbtype + ": " + msg.data.data[0].field;
-	}
+	} else if (msg.type == "current"){
+		document.getElementById("speed").innerHTML = "Szélsebesség: "+ msg.data.speed +"m/s";
+		document.getElementById("dire").innerHTML ="Szélirány: "+ dirmap[msg.data.direction];
+		document.getElementById("hum").innerHTML = "Páratartalom: "+ msg.data.humidity +" %";
+		document.getElementById("press").innerHTML = "Légnyomás: "+ msg.data.pressure +" Pa";
+		document.getElementById("temp").innerHTML = "Hőmérséklet: "+ msg.data.temperature +" °C";
 
+	}
+}catch(ex){
+
+}
 
 };
 ws.onclose = function () {

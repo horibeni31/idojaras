@@ -1,8 +1,8 @@
-#avg,#mim,#max{
+#avg,#mim,#max,.block_label{
 	display: block;
 }
 body{
-    background-color: rgb(153, 202, 175);
+    background-color: rgba(139, 158, 147, 0.685);
     padding-left: 10px;
 }
 
@@ -11,7 +11,8 @@ a{
     text-decoration:  none;
     color: white;
     border-bottom: 2px solid transparent;
-}   
+}  
+
 a:hover{
     color: mediumseagreen;
     border-bottom: 2px solid rgb(60, 179, 113);
@@ -19,19 +20,25 @@ a:hover{
 input,select{
     background-color: rgb(181, 236, 206);
     border: none;
+    margin: auto;;
 }input:hover,select:hover{
     background-color: rgb(147, 211, 176);
     border: none;
 }
 .container{
     float: center;
+    background-color: rgb(120, 231, 170);
 }
 
+h1{
+    align-content: center;
+}
 .dr{
 
   
     background-image: url('compass.png  ');
     background-repeat: no-repeat;
+
  background-size: 80%;
  background-position: center;
  padding: 30px;
