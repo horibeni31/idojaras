@@ -31,7 +31,7 @@ for (var key in cmbmap) {
 var ws = new WebSocket("ws://ip.idojaras.live:1264");
 
 document.getElementById("dt-from").defaultValue = "2014-02-09";
-document.getElementById("dt-to").defaultValue = "2020-05-14";
+document.getElementById("dt-to").defaultValue = "2020-12-14";
 
 function addData(chart, label, data) {
 	chart.data.labels.push(label);
@@ -135,7 +135,7 @@ ws.onmessage = function (event) {
 
 		for (var i = 0; i < msg.data.length; i++) {
 
-			values[dirmap[parseFloat(msg.data[i].dir).toFixed(1)]] = msg.data[i].sec;
+			values[dirmap[parseFloat(msg.data[i].dir).toFixed(1)]] = parseFloat( msg.data[i].sec /3600.0).toFixed(2);
 			//	//addData(myChart, msg.data[i].direction, msg.data[i].sp);
 
 			//addData(myChart, key, values[key]);

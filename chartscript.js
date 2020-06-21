@@ -26,7 +26,12 @@ var myChart = new Chart(ctx, {
 		},
 		tooltips: {
 			mode: 'index',
-			intersect: false,
+
+			intersect: true,
+			callbacks: {
+				label: function(tooltipItems, data) { 
+					return tooltipItems.yLabel + ' óra';
+				}}
 		},
 		hover: {
 			mode: 'nearest',
@@ -66,8 +71,10 @@ var myChart2 = new Chart(ctx2, {
 			text: 'Hőmérséklet'
 		},
 		tooltips: {
+			
 			mode: 'index',
 			intersect: false,
+		
 		},
 		hover: {
 			mode: 'nearest',
