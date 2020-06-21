@@ -135,7 +135,7 @@ ws.onmessage = function (event) {
 
 		for (var i = 0; i < msg.data.length; i++) {
 
-			values[dirmap[parseFloat(msg.data[i].direction).toFixed(1)]] = msg.data[i].sp;
+			values[dirmap[parseFloat(msg.data[i].dir).toFixed(1)]] = msg.data[i].sec;
 			//	//addData(myChart, msg.data[i].direction, msg.data[i].sp);
 
 			//addData(myChart, key, values[key]);
