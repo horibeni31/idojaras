@@ -14,86 +14,109 @@
 </head>
 
 <body>
-	<div class="container-fluid m-5 bg-secondary">
-		<!-- A grey horizontal navbar that becomes vertical on small screens -->
-		<!--	<nav class="navbar navbar-expand-sm bg-dark">
-
-			
-			<ul class="navbar-nav">
-				<li class="nav-item">
-					<a class="nav-link" href="#">Adatok letöltése</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="realtime.html">Jelenlegi adatok</a>
-				</li>
-
-			</ul>
-
-		</nav> -->
-		<h1>Bágyogszováti időjárás</h1>
-		<input type="date" id="dt-from" onchange="RefreshAll()">
-		<label>-tól ------</label>
-		<input type="date" id="dt-to" onchange="RefreshAll()">
-		<label>ig</label>
-
-
-		<div class="row"> 
-
-			<div class="col-sm-4 ">
-			</div>
-			<div class="col-sm-4 d-flex	 justify-content-center">
-				<select id="drp" onchange="RefreshTHSP()">
-
-				</select>
-			</div>
-			<div class="col-sm-4">
-
-
-
-			</div>
-		</div>
+	<div class="container-fluid p-5">
+		<!-- HEATHER-->
 		<div class="row">
+			<div class="col-lg-12 d-flex justify-content-center">
+				<div class="d-flex flex-column">
+					<h1>Bágyogszováti időjárás</h1>
+					<div class="card">
 
-			<div class="col-sm-4 dr">
 
-				<canvas class="cnvdir" id="myChart"></canvas>
+						<div class="d-flex flex-row">
+							<input type="date" id="dt-from" onchange="RefreshAll()">
+							<label>-tól ------</label>
+							<input type="date" id="dt-to" onchange="RefreshAll()">
+							<label>ig</label>
+						</div>
 
-
-
+					</div>
+				</div>
 			</div>
-			<div class="col-sm-4">
 
-
-				<canvas id="myChart2"></canvas>
-			</div>
-			<div class="col-sm-4">
-					<label id="speed" class="block_label">Szélsebesség: </label>
-					<label id="dire"  class="block_label">Szélirány: </label>
-					<label id="hum"   class="block_label">Páratartalom: </label>
-					<label id="press" class="block_label">Légnyomsás: </label>
-					<label id="temp"  class="block_label">Hőmérséklet: </label>
-			</div>
 		</div>
+		<!-- DIAGRAMS-->
 		<div class="row">
-			<div class="col-sm-6">
+			<div class="col-lg-6">
+				<div class="card">
+					<div class="dr">
+						<canvas class="cnvdir" id="myChart"></canvas>
+					</div>
+				</div>
 			</div>
-			<div class="col-sm-6">
-				<label id="avg">Átlag sebesség: </label>
-				<label id="max">Legnagyobb sebesség: </label>
-				<label id="min">Legkisebb sebesség: </label>
+
+			<div class="col-lg-6">
+				<div class="card">
+					<div class="d-flex	justify-content-center">
+						<select id="drp" onchange="RefreshTHSP()"></select>
+					</div>
+					<canvas id="myChart2"></canvas>
+
+				</div>
 
 			</div>
+
+
+
 		</div>
 
+		<div class="row">
+			<div class="col-lg-6">
 
+				<div id="currentCard" class="card">
 
+					<div class="d-flex flex-column">
+						<label id="cardLegend">Jelenlegi adatok</label>
 
+						<div class="d-flex flex-row">
+							<img src="cloudysun.png" alt="">
+							<div class="d-flex flex-column">
+								<label id="time">Hétfő 16:00</label>
+								<div class="d-flex flex-row">
+									<img src="thermometer.png" alt="">
+									<label id="temp" class="block_label">Nincs adat</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="d-flex flex-row">
+						<div class="d-flex flex-column">
+							<label class="title">Szélsebesség:</label>
+							<label class="title">Páratartalom: </label>
+							<label class="title">Légnyomsás: </label>
+						</div>
+						<div class="d-flex align-self-end flex-column">
 
+							<label id="dire">Nincs adat</label>
+							<label id="hum">Nincs adat</label>
+							<label id="press">Nincs adat</label>
+						</div>
+					</div>
 
+				</div>
 
+			</div>
+			<div class="col-lg-6">
+
+				<div class="card" id="statcard">
+
+					<label id="avgT" class="title">Átlag sebesség: </label>
+					<label id="avg">Nincs adat</label>
+
+					<label id="maxT" class="title">Legnagyobb sebesség: </label>
+					<label id="max">Nincs adat</label>
+
+					<label id="minT" class="title">Legkisebb sebesség: </label>
+					<label id=min>Nincs adat</label>
+				</div>
+			</div>
+
+		</div>
 	</div>
+
 	<script src="chartscript.js"></script>
 	<script src="script.js"></script>
+
 </body>
 
 </html>

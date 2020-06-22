@@ -28,6 +28,18 @@ for (var key in cmbmap) {
 	option.text = key;
 	document.getElementById("drp").add(option);
 }
+var days = ['Vasárnap', 'Hétfő', 'Kedd', 'Szerda', 'Csütörtök', 'Péntek', 'Szombat'];
+var d = new Date();
+var dayName = days[d.getDay()];
+document.getElementById("time").innerHTML = dayName + "\n" + d.toLocaleTimeString();
+var myVar = setInterval(myTimer, 1000);
+
+
+function myTimer() {
+	var d = new Date();
+	var dayName = days[d.getDay()];
+	document.getElementById("time").innerHTML = dayName + "\n" + d.toLocaleTimeString();
+}
 var ws = new WebSocket("ws://ip.idojaras.live:1264");
 
 document.getElementById("dt-from").defaultValue = "2014-02-09";
@@ -52,7 +64,7 @@ function clearData(chart) {
 
 	chart.update();
 }
-function RefreshAll(){
+function RefreshAll() {
 	RefreshTHSP();
 	RefreshOther()
 	RefreshDirection();
@@ -70,7 +82,7 @@ function RefreshTHSP() {
 	message.data.to = dtto;
 	var msg = JSON.stringify(message)
 	ws.send(msg);
-	
+
 }
 function RefreshOther() {
 	var type = cmbmap[document.getElementById("drp").options[document.getElementById("drp").selectedIndex].value];
@@ -114,62 +126,63 @@ ws.onerror = function (err) {
 ws.onmessage = function (event) {
 	//	console.log(event.data);
 	console.log(event.data);
-	try{
+	try {
 
 		var msg = JSON.parse(event.data);
 
-	
 
 
 
-	if (msg.type == "dir") {
-		clearData(myChart);
-		var values = {};
 
-		for (var key in dirmap) {
-			values[dirmap[key]] = 0;
-			//console.log(dirmap[key]);
-			//		addData(myChart, dirmap[key],1	);
+		if (msg.type == "dir") {
+			clearData(myChart);
+			var values = {};
+
+			for (var key in dirmap) {
+				values[dirmap[key]] = 0;
+				//console.log(dirmap[key]);
+				//		addData(myChart, dirmap[key],1	);
+
+			}
+
+			for (var i = 0; i < msg.data.length; i++) {
+
+				values[dirmap[parseFloat(msg.data[i].dir).toFixed(1)]] = parseFloat(msg.data[i].sec / 3600.0).toFixed(2);
+				//	//addData(myChart, msg.data[i].direction, msg.data[i].sp);
+
+				//addData(myChart, key, values[key]);
+
+			}
+			for (var key in values) {
+				addData(myChart, key, values[key]);
+
+			}
+
+
+
+		} else if (msg.type == "thsp") {
+			clearData(myChart2);
+			for (var i = 0; i < msg.data.length; i++) {
+				addData(myChart2, msg.data[i].date, msg.data[i].value);
+			}
+		} else if (msg.type == "other") {
+			var cmb = document.getElementById("drp");
+			var cmbtype = cmb.options[cmb.selectedIndex].value;
+			console.log(msg.data.type);
+			var dtype = msg.data.type == "avg" ? "Átlag " : msg.data.type == "min" ? "Minimum " : "Maximum ";
+			document.getElementById(msg.data.type).innerHTML = msg.data.data[0].field;
+			document.getElementById(msg.data.type+"T").innerHTML = dtype+ " "+cmbtype
+		} else if (msg.type == "current") {
+	//		document.getElementById("speed").innerHTML = msg.data.speed + "m/s";
+			document.getElementById("dire").innerHTML = dirmap[msg.data.direction]+" "+msg.data.speed+"m/s";
+			document.getElementById("hum").innerHTML = msg.data.humidity + " %";
+			document.getElementById("press").innerHTML = msg.data.pressure + " Pa";
+			document.getElementById("temp").innerHTML = msg.data.temperature + " °C";
 
 		}
-
-		for (var i = 0; i < msg.data.length; i++) {
-
-			values[dirmap[parseFloat(msg.data[i].dir).toFixed(1)]] = parseFloat( msg.data[i].sec /3600.0).toFixed(2);
-			//	//addData(myChart, msg.data[i].direction, msg.data[i].sp);
-
-			//addData(myChart, key, values[key]);
-
-		}
-		for (var key in values) {
-			addData(myChart, key, values[key]);
-
-		}
-
-
-
-	} else if (msg.type == "thsp") {
-		clearData(myChart2);
-		for (var i = 0; i < msg.data.length; i++) {
-			addData(myChart2, msg.data[i].date, msg.data[i].value);
-		}
-	} else if (msg.type == "other") {
-		var cmb = document.getElementById("drp");
-		var cmbtype = cmb.options[cmb.selectedIndex].value;
-		console.log(msg.data.type);
-		var dtype = msg.data.type == "avg" ? "Átlag " : msg.data.type == "min" ? "Minimum " : "Maximum ";
-		document.getElementById(msg.data.type).innerHTML = dtype + " " + cmbtype + ": " + msg.data.data[0].field;
-	} else if (msg.type == "current"){
-		document.getElementById("speed").innerHTML = "Szélsebesség: "+ msg.data.speed +"m/s";
-		document.getElementById("dire").innerHTML ="Szélirány: "+ dirmap[msg.data.direction];
-		document.getElementById("hum").innerHTML = "Páratartalom: "+ msg.data.humidity +" %";
-		document.getElementById("press").innerHTML = "Légnyomás: "+ msg.data.pressure +" Pa";
-		document.getElementById("temp").innerHTML = "Hőmérséklet: "+ msg.data.temperature +" °C";
+	} catch (ex) {
 
 	}
-}catch(ex){
-
-}
 
 };
 ws.onclose = function () {
