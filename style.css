@@ -30,14 +30,14 @@ input,select{
 
 h1{
 
-    margin-bottom: 100px;
+    margin-bottom: 50px;
 }
 .dr{
 
   
     background-image: url('compass.png  ');
     background-repeat: no-repeat;
-
+padding:40px;
  background-size: 80%;
  background-position: center;
 
@@ -47,7 +47,8 @@ h1{
 padding: 20px;
 
   margin: 5px;
-  background-color: rgba(0, 17, 255, 0.185);
+  margin-bottom: 15px;
+  background-color: rgba(0, 17, 255, 0.027);
   
   border-radius: 10px;
   -webkit-box-shadow: 7px 9px 19px 0px rgba(0,0,0,0.79);
