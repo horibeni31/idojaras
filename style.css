@@ -40,13 +40,13 @@ h1{
 
  background-size: 80%;
  background-position: center;
- padding: 30px;
+
 }
 
 .card{
+padding: 20px;
 
-  padding: 10px;
-  margin: 10px;
+  margin: 5px;
   background-color: rgba(0, 17, 255, 0.185);
   
   border-radius: 10px;
@@ -54,11 +54,7 @@ h1{
   -moz-box-shadow: 7px 9px 19px 0px rgba(0,0,0,0.79);
   box-shadow: 7px 9px 19px 0px rgba(0,0,0,0.79);
 }
-#currentCard{
-    padding: 20px;
-    
-    min-width: 400px;
-}
+
 #cardLegend{
     padding-left: 10px; 
     padding-right: 10px;
