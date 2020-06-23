@@ -47,8 +47,21 @@
 
 			<div class="col-lg-6">
 				<div class="card">
-					<div class="d-flex	justify-content-center">
+					<div class="d-flex flex-column">
 						<select id="drp" onchange="RefreshTHSP()"></select>
+						<div class="d-flex flex-row-reverse	">
+
+
+							<div class="d-flex flex-row ">
+
+								<div class="slidecontainer">
+									<input type="range" min="1" max="96" value="2" class="slider" onchange="sliderChange()"
+									oninput="sliderDrag()" id="myRange">
+								</div>
+							</div>
+							<label id="interval">30-percenként</label>
+						
+						</div>
 					</div>
 					<canvas id="myChart2"></canvas>
 
@@ -107,7 +120,7 @@
 					<label id="max">Nincs adat</label>
 
 					<label id="minT" class="title">Legkisebb sebesség: </label>
-					<label id=min>Nincs adat</label>
+					<label id="min">Nincs adat</label>
 				</div>
 			</div>
 
