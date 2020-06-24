@@ -39,7 +39,7 @@ var now = new Date();
 
 
 var datefrom = new Date(new Date().setDate(new Date().getDate() - 30));
-var dateto = new Date(new Date().setDate(new Date().getDate()+0));
+var dateto = new Date(new Date().setDate(new Date().getDate() + 0));
 
 
 document.getElementById("dt-from").defaultValue = datefrom.toISOString().slice(0, 10);
@@ -78,12 +78,14 @@ function RefreshAll() {
 	RefreshDirection();
 }
 function RefreshTHSP() {
+	console.log("refreshing thsp..");
 	var type = cmbmap[document.getElementById("drp").options[document.getElementById("drp").selectedIndex].value];
 
 	var dtfrom = new Date(document.getElementById("dt-from").value);
 	var dtto = new Date(document.getElementById("dt-to").value);
 	var message = {};
 	message.type = "thsp";
+	message.intervall =  document.getElementById("myRange").value * 15 * 60 * 1000;
 	message.data = {};
 	message.data.type = type;
 	message.data.from = dtfrom;
@@ -106,7 +108,7 @@ function RefreshOther() {
 	var msg = JSON.stringify(message);
 	ws.send(msg);
 	myChart2.options.title.text = document.getElementById("drp").options[document.getElementById("drp").selectedIndex].value;
-
+console.log("refreshign other...");
 
 }
 function RefreshDirection() {
@@ -168,37 +170,13 @@ ws.onmessage = function (event) {
 
 
 		} else if (msg.type == "thsp") {
-			clearData(myChart2);
-			if(msg.data.length>500){
-				document.getElementById("myRange").value = 96;
+
+			clearData(myChart2);	
+			console.log(msg.data)
+			for (var i = 0; i < msg.data.length; i++) {		
+				addData(myChart2, msg.data[i].date, msg.data[i].value);			
 			}
-				var interval = document.getElementById("myRange").value*15*60 * 1000;
 
-			//var num = 0;
-		//	var interval = 1 * 1000;
-			var first = new Date(msg.data[0].date);
-			var count = 0;
-			var sum = 0.0;
-			for (var i = 0; i < msg.data.length; i++) {
-
-				var current = new Date(msg.data[i].date);
-
-				if (Math.abs(current - first) >= interval) {
-					console.log(current.toISOString()+" and "+first.toISOString());
-					count++;
-					sum += parseFloat(msg.data[i].value);
-					addData(myChart2, first.toISOString(), sum / count);
-					first = new Date(current.toISOString());
-					count=0;
-					sum = 0.0;
-				//	num++;
-				}
-				else {
-					count++;
-					sum += parseFloat(msg.data[i].value);
-				}
-			}
-		//console.log(msg.data.length+" to "+num	)
 		} else if (msg.type == "other") {
 			var cmb = document.getElementById("drp");
 			var cmbtype = cmb.options[cmb.selectedIndex].value;
@@ -220,24 +198,24 @@ ws.onmessage = function (event) {
 
 };
 function sliderChange() {
-RefreshTHSP();
+	RefreshTHSP();
 
 
 
 }
 function sliderDrag() {
-	
+
 	var val = document.getElementById("myRange").value;
 	if (val * 15 <= 60) {
 		console.log(document.getElementById("myRange").value * 30 + " perc");
-		interval.innerHTML =document.getElementById("myRange").value *15+"-percenként";
-		
-	}else if(val == 48){
-		interval.innerHTML ="Naponta";
+		interval.innerHTML = document.getElementById("myRange").value * 15 + "-percenként";
+
+	} else if (val == 48) {
+		interval.innerHTML = "Naponta";
 
 
 	} else {
-		interval.innerHTML =parseFloat(document.getElementById("myRange").value *15/60.0).toFixed(2)+"-óránként";
+		interval.innerHTML = parseFloat(document.getElementById("myRange").value * 15 / 60.0).toFixed(2) + "-óránként";
 		console.log(parseFloat(document.getElementById("myRange").value * 15 / 60.0).toFixed(1) + " óra");
 
 
