@@ -79,13 +79,29 @@ function RefreshAll() {
 }
 function RefreshTHSP() {
 	console.log("refreshing thsp..");
+	const maxDots = 150;
+	var interval = document.getElementById("myRange").value * 15;
 	var type = cmbmap[document.getElementById("drp").options[document.getElementById("drp").selectedIndex].value];
-
+	
 	var dtfrom = new Date(document.getElementById("dt-from").value);
 	var dtto = new Date(document.getElementById("dt-to").value);
+	var dots = Math.abs(dtfrom-dtto)/1000/60 /interval;
+	console.log(dots);
+	console.log(Math.abs(dtfrom-dtto)/1000/60);
+	console.log( interval);
+	if(dots>maxDots){
+
+		console.log("old was "+interval/60+", with "+dots );
+		console.log( "real: "+Math.abs(dtfrom-dtto)/1000/60/maxDots/15);
+		document.getElementById("myRange").value = Math.ceil(Math.abs(dtfrom-dtto)/1000/60/maxDots/15);
+	interval = document.getElementById("myRange").value*15;
+	dots = Math.abs(dtfrom-dtto)/1000/60 /interval;
+	console.log("adjusted to "+interval/60+",with "+dots );
+	sliderDrag();
+	}
 	var message = {};
 	message.type = "thsp";
-	message.intervall =  document.getElementById("myRange").value * 15 * 60 * 1000;
+	message.intervall =  interval*60*1000;
 	message.data = {};
 	message.data.type = type;
 	message.data.from = dtfrom;
@@ -176,7 +192,12 @@ ws.onmessage = function (event) {
 			for (var i = 0; i < msg.data.length; i++) {		
 				addData(myChart2, msg.data[i].date, msg.data[i].value);			
 			}
-
+			
+			
+			// for (var i = 0; i < 150	; i++) {		
+			// 	addData(myChart2, msg.data[0].date, msg.data[0].value);			
+			// }
+		
 		} else if (msg.type == "other") {
 			var cmb = document.getElementById("drp");
 			var cmbtype = cmb.options[cmb.selectedIndex].value;
@@ -210,7 +231,7 @@ function sliderDrag() {
 		console.log(document.getElementById("myRange").value * 30 + " perc");
 		interval.innerHTML = document.getElementById("myRange").value * 15 + "-percenként";
 
-	} else if (val == 48) {
+	} else if (val == 96) {
 		interval.innerHTML = "Naponta";
 
 

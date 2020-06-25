@@ -30,7 +30,7 @@ var myChart = new Chart(ctx, {
 			intersect: true,
 			callbacks: {
 				label: function(tooltipItems, data) { 
-					return tooltipItems.yLabel + ' óra';
+					return data.labels[tooltipItems.index]+":" + tooltipItems.yLabel + ' óra';
 				}}
 		},
 		hover: {
