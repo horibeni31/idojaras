@@ -39,7 +39,7 @@ var now = new Date();
 
 
 var datefrom = new Date(new Date().setDate(new Date().getDate() - 30));
-var dateto = new Date(new Date().setDate(new Date().getDate() + 0));
+var dateto = new Date(new Date().setDate(new Date().getDate() + 1));
 
 
 document.getElementById("dt-from").defaultValue = datefrom.toISOString().slice(0, 10);
