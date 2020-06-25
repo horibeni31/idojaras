@@ -173,9 +173,9 @@ ws.onmessage = function (event) {
 
 			for (var i = 0; i < msg.data.length; i++) {
 
-				values[dirmap[parseFloat(msg.data[i].dir).toFixed(1)]] = parseFloat(msg.data[i].sec / 3600.0).toFixed(2);
-				//	//addData(myChart, msg.data[i].direction, msg.data[i].sp);
-
+				values[dirmap[parseFloat((360+(msg.data[i].dir-90) %360)%360).toFixed(1)]] = parseFloat(msg.data[i].sec / 3600.0).toFixed(2);
+                    console.log("                 "+dirmap[parseFloat((msg.data[i].dir-90) % 360).toFixed(1)]);
+                    console.log("                 "+360+(msg.data[i].dir-90) %360);
 				//addData(myChart, key, values[key]);
 
 			}
