@@ -86,17 +86,17 @@ function RefreshTHSP() {
 	var dtfrom = new Date(document.getElementById("dt-from").value);
 	var dtto = new Date(document.getElementById("dt-to").value);
 	var dots = Math.abs(dtfrom-dtto)/1000/60 /interval;
-	console.log(dots);
-	console.log(Math.abs(dtfrom-dtto)/1000/60);
-	console.log( interval);
+	//console.log(dots);
+	//console.log(Math.abs(dtfrom-dtto)/1000/60);
+	//console.log( interval);
 	if(dots>maxDots){
 
-		console.log("old was "+interval/60+", with "+dots );
-		console.log( "real: "+Math.abs(dtfrom-dtto)/1000/60/maxDots/15);
+	//	console.log("old was "+interval/60+", with "+dots );
+	//	console.log( "real: "+Math.abs(dtfrom-dtto)/1000/60/maxDots/15);
 		document.getElementById("myRange").value = Math.ceil(Math.abs(dtfrom-dtto)/1000/60/maxDots/15);
 	interval = document.getElementById("myRange").value*15;
 	dots = Math.abs(dtfrom-dtto)/1000/60 /interval;
-	console.log("adjusted to "+interval/60+",with "+dots );
+	//console.log("adjusted to "+interval/60+",with "+dots );
 	sliderDrag();
 	}
 	var message = {};
@@ -174,8 +174,8 @@ ws.onmessage = function (event) {
 			for (var i = 0; i < msg.data.length; i++) {
 
 				values[dirmap[parseFloat((360+(msg.data[i].dir-90) %360)%360).toFixed(1)]] = parseFloat(msg.data[i].sec / 3600.0).toFixed(2);
-                    console.log("                 "+dirmap[parseFloat((msg.data[i].dir-90) % 360).toFixed(1)]);
-                    console.log("                 "+360+(msg.data[i].dir-90) %360);
+                  //  console.log("                 "+dirmap[parseFloat((360+(msg.data[i].dir-90) % 360)%360).toFixed(1)]);
+               //     console.log(""+parseFloat((360+(msg.data[i].dir-90) % 360)%360).toFixed(1));
 				//addData(myChart, key, values[key]);
 
 			}
@@ -188,7 +188,7 @@ ws.onmessage = function (event) {
 		} else if (msg.type == "thsp") {
 
 			clearData(myChart2);	
-			console.log(msg.data)
+			//console.log(msg.data)
 			for (var i = 0; i < msg.data.length; i++) {		
 				addData(myChart2, msg.data[i].date, msg.data[i].value);			
 			}
@@ -206,8 +206,9 @@ ws.onmessage = function (event) {
 			document.getElementById(msg.data.type).innerHTML = msg.data.data[0].field;
 			document.getElementById(msg.data.type + "T").innerHTML = dtype + " " + cmbtype
 		} else if (msg.type == "current") {
-			//		document.getElementById("speed").innerHTML = msg.data.speed + "m/s";
-			document.getElementById("dire").innerHTML = dirmap[msg.data.direction] + " " + msg.data.speed + "m/s";
+            //		document.getElementById("speed").innerHTML = msg.data.speed + "m/s";
+           
+			document.getElementById("dire").innerHTML =  dirmap[parseFloat((360+(msg.data.direction-90) %360)%360).toFixed(1)] + " " + msg.data.speed + "m/s";
 			document.getElementById("hum").innerHTML = msg.data.humidity + " %";
 			document.getElementById("press").innerHTML = msg.data.pressure + " Pa";
 			document.getElementById("temp").innerHTML = msg.data.temperature + " °C";
@@ -228,7 +229,7 @@ function sliderDrag() {
 
 	var val = document.getElementById("myRange").value;
 	if (val * 15 <= 60) {
-		console.log(document.getElementById("myRange").value * 30 + " perc");
+		//console.log(document.getElementById("myRange").value * 30 + " perc");
 		interval.innerHTML = document.getElementById("myRange").value * 15 + "-percenként";
 
 	} else if (val == 96) {
@@ -237,7 +238,7 @@ function sliderDrag() {
 
 	} else {
 		interval.innerHTML = parseFloat(document.getElementById("myRange").value * 15 / 60.0).toFixed(2) + "-óránként";
-		console.log(parseFloat(document.getElementById("myRange").value * 15 / 60.0).toFixed(1) + " óra");
+	//	console.log(parseFloat(document.getElementById("myRange").value * 15 / 60.0).toFixed(1) + " óra");
 
 
 	}
